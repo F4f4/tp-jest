@@ -37,4 +37,26 @@ describe('Book repository Save', function () {
     expect(() => {repository.getTotalCount()}).toThrow('Unable to get total count, size can\'t be negative');
   });
 
+  test('Get total price 7.5 + 9 => 16.5', () => {
+    const dbMock = {
+      get : jest.fn().mockReturnThis(),
+      value: jest.fn().mockReturnValue([
+          {id:1, name:"test", price:7.5},
+          {id:1, name:"test", price:9}
+          ])
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(repository.getTotalPrice()).toBe(16.5);
+  });
+
+  test('Get total price empty base => 0', () => {
+    const dbMock = {
+      get : jest.fn().mockReturnThis(),
+      value: jest.fn().mockReturnValue([])
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(repository.getTotalPrice()).toBe(0);
+  });
 });

@@ -12,3 +12,5 @@ repository.save({
 });
 
 console.log(repository.getTotalCount());
+
+console.log(repository.getTotalPrice());
