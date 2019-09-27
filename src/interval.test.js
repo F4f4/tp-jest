@@ -59,4 +59,32 @@ describe('Interval', () => {
     expect(interv1.union(interv2)).toHaveLength(2);
     expect(interv1.union(interv2)).toEqual(expected);
   });
+
+  test('Intersect interval1 [1, 10] interval2 [8, 12] overlapsed => [8, 10]', () => {
+    const interv1 = new Interval(1, 10);
+    const interv2 = new Interval(8, 12);
+
+    expect(interv1.intersection(interv2)).toEqual(new Interval(8, 10));
+  });
+
+  test('Intersect interval1 [1, 10] interval2 [12, 20] no overlapsed => null', () => {
+    const interv1 = new Interval(1, 10);
+    const interv2 = new Interval(12, 20);
+
+    expect(interv1.intersection(interv2)).toBeNull();
+  });
+
+  test('Intersect interval1 [0, 0] interval2 [0, 0] no overlapsed => null', () => {
+    const interv1 = new Interval(0, 0);
+    const interv2 = new Interval(0, 0);
+
+    expect(interv1.intersection(interv2)).toBeNull();
+  });
+
+  test('Intersect negative interval1 [-10, -5] interval2 [-20, -6] overlapsed => [-10, -6]', () => {
+    const interv1 = new Interval(-10, -5);
+    const interv2 = new Interval(-20, -6);
+
+    expect(interv1.intersection(interv2)).toEqual(new Interval(-10, -6));
+  });
 });

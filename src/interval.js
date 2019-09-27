@@ -95,7 +95,12 @@ class Interval {
      * @returns {Interval|null}
      */
     intersection(interval) {
-
+      if(this.overlaps(interval) == true){
+        // Si les 2 intervalles se chevauchent, on retourne l'intersection
+        return new Interval(Math.max(this.start, interval.start), Math.min(this.end, interval.end));
+      } else {
+        return null;
+      }
     };
 
     /**
