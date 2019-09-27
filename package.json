@@ -39,6 +39,7 @@
     "jest": "^24.1.0"
   },
   "dependencies": {
+    "lowdb": "^1.0.0",
     "stryker": "^0.35.1"
   }
 }
