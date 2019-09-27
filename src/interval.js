@@ -64,7 +64,18 @@ class Interval {
      * @returns {Interval[]}
      */
     union(interval) {
+      var retInterv = [];
 
+      if (this.overlaps(interval) == true){
+        // Si les 2 intervalles se chevauchent, on retourne l'interval total
+        retInterv.push(new Interval(Math.min( this.start, interval.start), Math.max(this.end, interval.end)));
+      } else {
+        // Les 2 intervalles ne se chevauchent pas, on retourne les 2 intervalles
+        retInterv.push(new Interval(this.start, this.end));
+        retInterv.push(new Interval(interval.start, interval.end));
+      }
+
+      return retInterv;
     };
 
     /**

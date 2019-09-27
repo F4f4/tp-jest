@@ -41,5 +41,22 @@ describe('Interval', () => {
     const interv2 = new Interval(5, 10);
     expect(interv1.includes(interv2)).toBe(false);
   });
-  
+
+  test('Union interval1 [5,8] overlapse interval2 [3,6] => [3,8]', () => {
+    const interv1 = new Interval(5, 8);
+    const interv2 = new Interval(3, 6);
+
+    const expected = [new Interval(3, 8)];
+    expect(interv1.union(interv2)).toHaveLength(1);
+    expect(interv1.union(interv2)).toEqual(expected);
+  });
+
+  test('Union interval1 [5,8] no overlapse interval2 [10,20] => [5,8],[10,20]', () => {
+    const interv1 = new Interval(5, 8);
+    const interv2 = new Interval(10, 20);
+
+    const expected = [new Interval(5, 8), new Interval(10, 20)];
+    expect(interv1.union(interv2)).toHaveLength(2);
+    expect(interv1.union(interv2)).toEqual(expected);
+  });
 });
