@@ -120,7 +120,30 @@ class Interval {
      * @returns {Interval[]}
      */
     exclusion(interval) {
+      let retInterv = [];
 
+      if (this.overlaps(interval)){
+        // Si les intervalles se chevauchent, on renvoit l'exclusion des 2
+        retInterv.push(new Interval(
+          Math.min(this.start, interval.start),
+          Math.max(this.start, interval.start))
+        );
+        retInterv.push(new Interval(
+          Math.min(this.end, interval.end),
+          Math.max(this.end, interval.end))
+        );
+      } else {
+        // Si les intervalles ne se chevauchent pas, on renvoit les 2
+        retInterv.push(new Interval(
+          this.start,
+          this.end)
+        );
+        retInterv.push((new Interval(
+          interval.start,
+          interval.end))
+        );
+      }
+      return retInterv;
     };
 }
 
