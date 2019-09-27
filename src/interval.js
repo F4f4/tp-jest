@@ -9,12 +9,12 @@ class Interval {
     }
 
     /**
-     * Exemple 1 :
+     * Exemple 1 : Chevauchement des intervalles
      *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
      *      interval2 =                                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
      *      interval1.overlaps(interval2) => true
      *
-     * Exemple 2 :
+     * Exemple 2 : Intervalles indépendants
      *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
      *      interval2 =                                                       ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
      *      interval1.overlaps(interval2) => false
@@ -43,8 +43,9 @@ class Interval {
      * @returns {boolean}
      */
     includes(interval) {
-
-    };
+      return this.end >= interval.end && this.start <= interval.start;
+    }
+    ;
 
     /**
      * Retourne l'union de deux intervals

@@ -102,9 +102,9 @@ Util.cipher = function (phrase) {
   var ret = "";
   if (len > 0) {
     for (const lettre of phrase) {
-      if (lettre typeof( Number)) {
+      /*if (lettre typeof( Number)) {
         throw 'Unable to compute cipher with number'
-      }
+      }*/
       if (lettre === 'z') ret += 'a';
       else if (lettre === 'Z') ret += 'A';
       else if (lettre === " ") ret += " ";
