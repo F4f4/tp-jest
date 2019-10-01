@@ -77,12 +77,27 @@ describe('fizBuzz', function () {
 
 describe('cipher', function () {
   test('Test cipher de "Test Unitaire" => "Uftu Vojubjsf"', () => {
-    expect(Util.cipher("Test Unitaire")).toBe("Uftu Vojubjsf")
+    expect(Util.cipher("Test Unitaire"))
+      .toBe("Uftu Vojubjsf")
   });
   test('Test cipher de "" => ""', () => {
-    expect(Util.cipher("")).toBe("")
+    expect(Util.cipher(""))
+      .toBe("")
   });
-  /*test('Test cipher de "1234" => "2345"', () => {
-    expect(() => { Util.cipher("12349")}).toThrow('Unable to compute cipher with number')
-  });*/
+  test('Test cipher de z => a', () => {
+    expect(Util.cipher("z"))
+      .toBe("a")
+  });
+  test('Test cipher de Z => A', () => {
+    expect(Util.cipher("Z"))
+      .toBe("A")
+  });
+  test('Test cipher de "a23e" => "b34f"', () => {
+    expect(Util.cipher("a23e"))
+      .toBe("b34f")
+  });
+  test('Test cipher de "z29" => "a30"', () => {
+    expect(Util.cipher("z29"))
+      .toBe("a30")
+  });
 });
