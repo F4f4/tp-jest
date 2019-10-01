@@ -39,6 +39,8 @@
     "jest": "^24.1.0"
   },
   "dependencies": {
+    "lodash": "^4.17.15",
+    "lodash-id": "^0.14.0",
     "lowdb": "^1.0.0",
     "stryker": "^0.35.1"
   }

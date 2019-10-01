@@ -10,10 +10,49 @@ describe('Book repository Save', function () {
             write : jest.fn().mockReturnThis()
         };
         const repository = new BookRepository(dbMock);
-        repository.save({id: 1, name: "Unit test"});
+        repository.save({id: 1, name: "Unit test", price: 11});
 
         expect(dbMock.write.mock.calls.length).toBe(1);
     });
+
+    test('Save a book with date', () => {
+
+      const dbMock = {
+        get : jest.fn().mockReturnThis(),
+        push : jest.fn().mockReturnThis(),
+        write : jest.fn().mockReturnThis()
+      };
+      const repository = new BookRepository(dbMock);
+      repository.save({id: 1, name: "Unit test", price: 11, added_at: "2019-10-01"});
+
+      expect(dbMock.write.mock.calls.length).toBe(1);
+    });
+
+  test('Save an incomplete book', () => {
+
+    const dbMock = {
+      get : jest.fn().mockReturnThis(),
+      push : jest.fn().mockReturnThis(),
+      write : jest.fn().mockReturnThis()
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(() => {repository.save({id: 1, name: "Unit test"})})
+      .toThrow('Unable to compute Save of incomplete book');
+  });
+
+  test('Save a null book => throw \'Unable to compute Save of null book\'', () => {
+
+    const dbMock = {
+      get : jest.fn().mockReturnThis(),
+      push : jest.fn().mockReturnThis(),
+      write : jest.fn().mockReturnThis()
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(() => {repository.save()})
+      .toThrow('Unable to compute Save of null book');
+  });
 
     test('Get total count', () => {
       const dbMock = {
@@ -34,7 +73,8 @@ describe('Book repository Save', function () {
     };
     const repository = new BookRepository(dbMock);
 
-    expect(() => {repository.getTotalCount()}).toThrow('Unable to get total count, size can\'t be negative');
+    expect(() => {repository.getTotalCount()})
+      .toThrow('Unable to get total count, size can\'t be negative');
   });
 
   test('Get total price 7.5 + 9 => 16.5', () => {
@@ -57,6 +97,30 @@ describe('Book repository Save', function () {
     };
     const repository = new BookRepository(dbMock);
 
-    expect(repository.getTotalPrice()).toBe(0);
+    expect(repository.getTotalPrice())
+      .toBe(0);
   });
+
+  test('Get book by name "Harry Potter" => OK', () => {
+    const dbMock = {
+      get: jest.fn().mockReturnThis(),
+      find: jest.fn().mockReturnThis(),
+      value: jest.fn().mockReturnValue([
+        {id:2, name:"Harry Potter", price:12}
+      ])
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(repository.getBookByName("Harry Potter"))
+      .toEqual([{id: 2, name: "Harry Potter", price: 12}]);
+
+  });
+
+  test('Get book by empty name => throw error', () => {
+    const repository = new BookRepository();
+
+    expect(() => {repository.getBookByName("")})
+      .toThrow('Unable to search a book without name');
+  });
+
 });
