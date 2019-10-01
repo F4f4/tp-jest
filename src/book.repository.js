@@ -1,3 +1,5 @@
+const lodashId = require('lodash-id');
+
 class BookRepository {
 
     /**
@@ -12,7 +14,32 @@ class BookRepository {
    * @param book
    */
   save (book) {
-        this.db.get('books').push(book).write();
+      if(book) {
+        if (book.name && book.price) {
+          let today = new Date().toISOString().slice(0, 10);
+          this.db.get('books')
+            .push({
+              id: book.id,
+              name: book.name,
+              price: book.price,
+              added_at: book.added_at ? book.added_at : today
+            })
+            .write();
+          // Test avec generation auto des id
+          /*lodashId.insert(
+            'books',
+            {
+              name: book.name,
+              price: book.price,
+              added_at: book.added_at ? book.added_at : today
+            }
+          );*/
+        }else {
+          throw 'Unable to compute Save of incomplete book';
+        }
+      } else {
+        throw 'Unable to compute Save of null book';
+      }
     }
 
     /**
@@ -43,7 +70,13 @@ class BookRepository {
      * Retourne un livre
      */
     getBookByName(bookName) {
-
+      if(bookName) {
+        return this.db.get('books')
+          .find(({name: bookName}))
+          .value();
+      } else {
+        throw 'Unable to search a book without name';
+      }
     }
 
     /**
