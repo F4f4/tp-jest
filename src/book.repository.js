@@ -1,4 +1,4 @@
-const lodashId = require('lodash-id');
+const _ = require('lodash');
 
 class BookRepository {
 
@@ -25,15 +25,6 @@ class BookRepository {
               added_at: book.added_at ? book.added_at : today
             })
             .write();
-          // Test avec generation auto des id
-          /*lodashId.insert(
-            'books',
-            {
-              name: book.name,
-              price: book.price,
-              added_at: book.added_at ? book.added_at : today
-            }
-          );*/
         }else {
           throw 'Unable to compute Save of incomplete book';
         }
@@ -85,21 +76,30 @@ class BookRepository {
      *  [
      *      {
      *          year: 2017,
-     *          month, 2,
-     *          count, 129,
+     *          month: 2,
+     *          count: 129,
      *          count_cumulative: 129
      *      },
      *      {
      *          year: 2017,
-     *          month, 3,
-     *          count, 200,
+     *          month: 3,
+     *          count: 200,
      *          count_cumulative: 329
      *      },
      *      ....
      *  ]
      */
-    getCountBookAddedByMont(bookName) {
+    getCountBookAddedByMonth() {
+      let total = 0;
 
+      return _(this.db.get('books').value())
+        .groupBy(x => x.added_at.slice(0,7))
+        .map((value, key) =>
+          ({year: key.slice(0, 4),
+            month: key.slice(5, 7),
+            count: value.length,
+            count_cumulative: total += value.length}))
+        .value();
     }
 
 }
