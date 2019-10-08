@@ -5,6 +5,11 @@ module.exports = function(config) {
     reporters: ["clear-text", "progress"],
     testRunner: "jest",
     transpilers: [],
-    coverageAnalysis: "off"
+    coverageAnalysis: "off",
+    files: [
+      'src/**.js',
+      '!src/db.js',
+      '!src/test-script.js',
+    ],
   });
 };

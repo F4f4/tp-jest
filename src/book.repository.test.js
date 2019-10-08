@@ -54,6 +54,13 @@ describe('Book repository Save', function () {
       .toThrow('Unable to compute Save of null book');
   });
 
+  test('Save a empty book => throw \'Unable to compute Save of incomplete book\'', () => {
+    const repository = new BookRepository();
+
+    expect(() => {repository.save({})})
+      .toThrow('Unable to compute Save of incomplete book');
+  });
+
     test('Get total count', () => {
       const dbMock = {
         get : jest.fn().mockReturnThis(),
@@ -123,4 +130,43 @@ describe('Book repository Save', function () {
       .toThrow('Unable to search a book without name');
   });
 
+  test('Get book by null name => throw error', () => {
+    const repository = new BookRepository();
+
+    expect(() => {repository.getBookByName()})
+      .toThrow('Unable to search a book without name');
+  });
+
+  test('Get count book added by month', () => {
+    const dbMock = {
+      get : jest.fn().mockReturnThis(),
+      value: jest.fn().mockReturnValue([
+        {id:1, name:"test", price:7.5, added_at:"2019-07-12"},
+        {id:1, name:"test", price:9, added_at:"2019-08-01"}
+      ])
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(repository.getCountBookAddedByMonth()).toEqual(
+      [{ year: '2019',
+          month: '07',
+          count: 1,
+          count_cumulative: 1
+      },
+        { year: '2019',
+          month: '08',
+          count: 1,
+          count_cumulative: 2
+        }]);
+  });
+
+  test('Get empty count book added by month', () => {
+    const dbMock = {
+      get : jest.fn().mockReturnThis(),
+      value: jest.fn().mockReturnValue([])
+    };
+    const repository = new BookRepository(dbMock);
+
+    expect(repository.getCountBookAddedByMonth()).toEqual([]);
+  });
 });
